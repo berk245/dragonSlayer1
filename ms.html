@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Dragon Slayer Game</title>
+    <link rel="stylesheet" href="ms.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  </head>
+  <body>
+    <audio autoplay="true" loop>
+        <source src="come.mp3" type="audio/ogg">
+        </audio>
+
+    <div id="app">
+     <div class="welcoming" v-if="!userName">
+        <img class="sword" src="./images/sword.png" alt="sword">
+        <img class= "dragon" src="./images/dragon.png" alt="">
+        <h1 class="gameTitle">DRAGON SLAYER</h1>
+        <img class= "dragon2" src="./images/dragon.png" alt="">
+      </div>
+
+   <div class="nameBox" v-if="!userName">
+        <section>
+          <section class="charImg">
+            <button id="char1" @click="getImage1" class="avatars" v-bind:class="{ avatarActive: isActive1 }"></button>
+            <button id="char2" @click="getImage2" class="avatars" v-bind:class="{ avatarActive: isActive2 }"></button>
+            <button id="char3" @click="getImage3" class="avatars" v-bind:class="{ avatarActive: isActive3 }"></button>
+            <button id="char4" @click="getImage4" class="avatars" v-bind:class="{ avatarActive: isActive4 }"></button>
+          </section>
+
+          <p id="namePrompt">WHAT'S THE NAME OF OUR HERO?</p>
+          <input @keydown.enter="getName" type="text" name="Your Name" value="Your Name" v-model="name"><br>
+
+
+
+          <button id="faceButton" @click="getName" type="button" name="button"> FACE THE DRAGON </button>
+        </section>
+      </div>
+
+
+    <div v-if="userName" class="container" @keydown.enter="showRules = false">
+
+        <img class="inGameAvatar" id="playerPic" :src="playerIcon" alt="Player Icon">
+        <img class="inGameAvatar" src="./images/dragon2.png" id="monsterPic" alt="Monster Picture">
+        <button @click="rulesWindow" type="button" name="button">Rules</button>
+        <div class="rules" v-if="showRules">
+          <h1>Very Important Rules</h1>
+            <p>
+              Dragon is Strong! Are You Smart Enough to Take it Down? <br><br><br>
+              You Attack First! Use This to Your Advantage!<br><br><br>
+              Every Round Dragon Automatically Attacks You Back, Check the Damage You have Received from the List Below. <br><br><br>
+              For Every Attack You Make, You Get a Chance to Heal. But Monster May Not Be So Kind To Wait!<br><br><br>
+              5 Successful Attacks Earns You a Special Attack. Every Heal You Do Will Decrement the Special Attack Counter! Use it Wisely!<br><br><br>
+            </p>
+            <button @click="rulesWindow" type="button" name="button">Got it</button>
+        </div>
+        <p>Player Special Counter: {{ specialCounter }}</p>
+        <div class="player">
+          <div>
+          </div>
+          <div class="name">  {{ name }} </div>
+          <div class="special" v-if="specialCounter >= 5"> Special Ready</div>
+          <div class="health"  v-bind:style="{ width: playerHealth + '%' }"> {{ playerHealth }} </div>
+         </div>
+        <div class="monster">
+          <div class="m-name">DRAGON</div>
+
+          <div class="m-health" v-bind:style="{ width: monsterHealth + '%' }" > {{monsterHealth}} </div>
+        </div>
+
+        <div class="buttons">
+          <button v-if="!gameOn" @click="startGame"> START NEW GAME </button>
+          <section class="but2" v-if="gameOn">
+            <button id="attackButton" @click="normalAttack"> ATTACK </button>
+            <button id="specialAttackButton" @click="specialAttack"> SPECIAL ATTACK </button>
+            <button id="healButton" @click="healUp"> HEAL </button>
+            <button id="giveUpButton" @click="gaveUp" type="button" name="button"> GIVE UP </button>
+          </section>
+        </div>
+
+
+
+        <div class="list">
+          <p class="sentences" v-for="line in log.slice(0, 6)"> {{ line }} </p>
+         </div>
+
+      </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="ms.js"></script>
+
+  </body>
+</html>
